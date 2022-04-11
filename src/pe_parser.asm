@@ -193,6 +193,8 @@ RvaToOffset proc CurrentStdcallNotation uses ccx cdx cdi rva:cword, pe:cword
 	mov [numberOfSections], ecx
 	
 	xor ecx, ecx
+	;проходим по всем секциям и ищем
+	;в какую попадает RVA
 	.while ecx != [numberOfSections]
 	
         xor cax, cax
