@@ -137,14 +137,10 @@ DefineStdcallProto UnmapViewOfFile, 1
 DefineStdcallProto FindFirstFileA, 2
 DefineStdcallProto FindNextFileA, 2
 DefineStdcallProto FindClose, 1
-;DefineStdcallProto GetSystemDirectoryA, 2
 
 DefineCProto memset
 DefineCProto memcpy
 DefineCProto strcpy
-
-;DefineCProto strlen
-;DefineCProto printf
 
 
 sc segment
